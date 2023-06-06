@@ -29,8 +29,8 @@ def compute_triple_barrier_labels(
     series = pd.Series(np.log(price_series.values), index=price_series.index)
 
     # A list with elements of {-1, 0, 1} indicating the outcome of the events
-    labels = list()
-    label_dates = list()
+    labels = []
+    label_dates = []
 
     if upper_z or lower_z:
         volatility = series.ewm(span=vol_span).std()
@@ -44,30 +44,34 @@ def compute_triple_barrier_labels(
 
         # First element of tuple is 1 or -1 indicating upper or lower barrier
         # Second element of tuple is first date when barrier was crossed
-        candidates: List[Tuple[int, pd.Timestamp]] = list()
+        candidates: List[Tuple[int, pd.Timestamp]] = []
 
         # Add the first upper or lower delta crosses to candidates
         if upper_delta:
-            _date = log_returns[log_returns > upper_delta].first_valid_index()
-            if _date:
+            if _date := log_returns[
+                log_returns > upper_delta
+            ].first_valid_index():
                 candidates.append((upper_label, _date))
-    
+
         if lower_delta:
-            _date = log_returns[log_returns < lower_delta].first_valid_index()
-            if _date:
+            if _date := log_returns[
+                log_returns < lower_delta
+            ].first_valid_index():
                 candidates.append((lower_label, _date))
 
         # Add the first upper_z and lower_z crosses to candidates
         if upper_z:
             upper_barrier = upper_z * volatility[event_date]
-            _date = log_returns[log_returns > upper_barrier].first_valid_index()
-            if _date:
+            if _date := log_returns[
+                log_returns > upper_barrier
+            ].first_valid_index():
                 candidates.append((upper_label, _date))
 
         if lower_z:
             lower_barrier = lower_z * volatility[event_date]
-            _date = log_returns[log_returns < lower_barrier].first_valid_index()
-            if _date:
+            if _date := log_returns[
+                log_returns < lower_barrier
+            ].first_valid_index():
                 candidates.append((lower_label, _date))
 
         if candidates:

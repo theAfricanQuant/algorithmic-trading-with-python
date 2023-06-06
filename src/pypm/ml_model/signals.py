@@ -13,7 +13,7 @@ def calculate_signals(classifier, symbols: List[str], eod_data: pd.DataFrame,
 	"""
 
 	# For storing the signals
-	signal_by_symbol = dict()
+	signal_by_symbol = {}
 
 	# Build events and features for each symbol
 	for symbol in symbols:
@@ -38,7 +38,7 @@ def calculate_signals(classifier, symbols: List[str], eod_data: pd.DataFrame,
 		else:
 			_predictions = classifier.predict(features_on_events)
 			predictions = pd.Series(_predictions, index=event_index)
-		
+
 		# Add into output template
 		signal_series = signal_series.add(predictions, fill_value=0)
 

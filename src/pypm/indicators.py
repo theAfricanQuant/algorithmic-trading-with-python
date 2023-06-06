@@ -18,7 +18,7 @@ def calculate_macd_oscillator(series: pd.Series,
     Calculate the moving average convergence divergence oscillator, given a 
     short moving average of length n1 and a long moving average of length n2
     """
-    assert n1 < n2, f'n1 must be less than n2'
+    assert n1 < n2, 'n1 must be less than n2'
     return calculate_simple_moving_average(series, n1) - \
         calculate_simple_moving_average(series, n2)
 
@@ -42,9 +42,11 @@ def calculate_money_flow_volume_series(df: pd.DataFrame) -> pd.Series:
     """
     Calculates money flow series
     """
-    mfv = df['volume'] * (2*df['close'] - df['high'] - df['low']) / \
-                                    (df['high'] - df['low'])
-    return mfv
+    return (
+        df['volume']
+        * (2 * df['close'] - df['high'] - df['low'])
+        / (df['high'] - df['low'])
+    )
 
 def calculate_money_flow_volume(df: pd.DataFrame, n: int=20) -> pd.Series:
     """

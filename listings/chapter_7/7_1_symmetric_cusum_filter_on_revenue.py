@@ -35,7 +35,7 @@ def calculate_cusum_events(series: pd.Series,
     Calculate symmetric cusum filter and corresponding events
     """
 
-    event_dates = list()
+    event_dates = []
     s_up = 0
     s_down = 0
 

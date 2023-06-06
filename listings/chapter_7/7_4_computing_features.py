@@ -23,7 +23,7 @@ def calculate_features(price_series, revenue_series) -> pd.DataFrame:
 
     log_returns = _calc_log_return(price_series)
 
-    features_by_name = dict()
+    features_by_name = {}
 
     for i in [7, 30, 90, 180, 360]:
 
@@ -31,11 +31,10 @@ def calculate_features(price_series, revenue_series) -> pd.DataFrame:
         price_feature = _calc_delta(log_prices_ma, i)
         vol_feature = _calc_rolling_vol(log_returns, i)
 
-        features_by_name.update({
+        features_by_name |= {
             f'{i}_day_revenue_delta': rev_feature,
             f'{i}_day_return': price_feature,
             f'{i}_day_vol': vol_feature,
-        })
+        }
 
-    features_df = pd.DataFrame(features_by_name)    
-    return features_df
+    return pd.DataFrame(features_by_name)

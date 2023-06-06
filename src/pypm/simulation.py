@@ -91,7 +91,7 @@ class SimpleSimulator(object):
         # Figure out how much we are willing to spend
         cash_available = self.cash - self.trade_fee
         cash_to_spend = cash_available / self.free_position_slots
-        
+
         # Calculate buy_price and number of shares. Fractional shares allowed.
         purchase_price = (1 + self.percent_slippage) * price
         shares = cash_to_spend / purchase_price
@@ -103,7 +103,7 @@ class SimpleSimulator(object):
 
         # Record the position
         positions_by_symbol = self.active_positions_by_symbol
-        assert not symbol in positions_by_symbol, 'Symbol already in portfolio.'        
+        assert symbol not in positions_by_symbol, 'Symbol already in portfolio.'
         position = Position(symbol, date, purchase_price, shares)
         positions_by_symbol[symbol] = position
 
@@ -186,9 +186,10 @@ class SimpleSimulator(object):
             # Get up to max_active_positions symbols with a buy signal in 
             # decreasing order of preference
             to_buy = [
-                s for s in symbols if \
-                    row[_idx(s, 'signal')] == 1 and \
-                    not s in active_positions_by_symbol
+                s
+                for s in symbols
+                if row[_idx(s, 'signal')] == 1
+                and s not in active_positions_by_symbol
             ]
             to_buy.sort(key=lambda s: row[_idx(s, 'pref')], reverse=True)
             to_buy = to_buy[:max_active_positions]

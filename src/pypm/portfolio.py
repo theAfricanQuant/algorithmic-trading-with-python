@@ -174,14 +174,14 @@ class PortfolioHistory(object):
         self.last_date: pd.Timestamp = pd.Timestamp.min
 
         # Readonly fields
-        self._cash_history: Dict[pd.Timestamp, Dollars] = dict()
+        self._cash_history: Dict[pd.Timestamp, Dollars] = {}
         self._simulation_finished = False
         self._spy: pd.DataFrame = pd.DataFrame()
         self._spy_log_returns: pd.Series = pd.Series()
 
     def add_to_history(self, position: Position):
         _log = self._logged_positions
-        assert not position in _log, 'Recorded the same position twice.'
+        assert position not in _log, 'Recorded the same position twice.'
         assert position.is_closed, 'Position is not closed.'
         self._logged_positions.add(position)
         self.position_history.append(position)

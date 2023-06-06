@@ -21,7 +21,7 @@ if __name__ == '__main__':
     symbols, eod_data, alt_data = load_data()
 
     # The ML dataframe for each symbol, to be combined later
-    df_by_symbol: Dict[str, pd.DataFrame] = dict()
+    df_by_symbol: Dict[str, pd.DataFrame] = {}
 
     # Build ML dataframe for each symbol
     for symbol in symbols:

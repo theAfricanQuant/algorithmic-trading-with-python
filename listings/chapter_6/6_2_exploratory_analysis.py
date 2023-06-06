@@ -10,7 +10,7 @@ alt_data: pd.DataFrame = data_io.load_alternative_data_matrix(symbols)
 eod_data = eod_data[eod_data.index >= alt_data.index.min()]
 
 _calc_returns = metrics.calculate_log_return_series
-_corr_by_symbol = dict()
+_corr_by_symbol = {}
 
 for symbol in symbols:
 

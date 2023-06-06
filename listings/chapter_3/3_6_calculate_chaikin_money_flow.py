@@ -2,9 +2,11 @@ def calculate_money_flow_volume_series(df: pd.DataFrame) -> pd.Series:
     """
     Calculates money flow series
     """
-    mfv = df['volume'] * (2*df['close'] - df['high'] - df['low']) / \
-                                    (df['high'] - df['low'])
-    return mfv
+    return (
+        df['volume']
+        * (2 * df['close'] - df['high'] - df['low'])
+        / (df['high'] - df['low'])
+    )
 
 def calculate_money_flow_volume(df: pd.DataFrame, n: int=20) -> pd.Series:
     """

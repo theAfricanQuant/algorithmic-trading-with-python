@@ -24,8 +24,8 @@ def calculate_uniqueness(event_spans: pd.Series,
         df[i].loc[event_start:event_end] += 1
 
     # Compute concurrency over event span then calculate uniqueness
-    avg_uniquenesses = list()
-    for i, (event_start, event_end) in enumerate(event_spans.items()):
+    avg_uniquenesses = []
+    for event_start, event_end in event_spans.items():
         concurrency: pd.Series = df.loc[event_start:event_end].sum(axis=1)
         avg_uniqueness = 1 / hmean(concurrency)
         avg_uniquenesses.append(avg_uniqueness)

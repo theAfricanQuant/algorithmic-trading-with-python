@@ -70,9 +70,7 @@ def calculate_model(df: pd.DataFrame) -> RandomForestClassifier:
     classifier = RandomForestClassifier(n_estimators=100)
 
     # Separate data
-    predictor_columns = [
-        c for c in df.columns.values if not c in ('y', 'weights')
-    ]
+    predictor_columns = [c for c in df.columns.values if c not in ('y', 'weights')]
     X = df[predictor_columns]
     y = df['y']
     w = df['weights']

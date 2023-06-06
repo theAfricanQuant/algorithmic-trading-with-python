@@ -48,7 +48,7 @@ class GridSearchOptimizer(object):
     def __init__(self, simulation_function: SimFunction):
 
         self.simulate = simulation_function
-        self._results_list: List[OptimizationResult] = list()
+        self._results_list: List[OptimizationResult] = []
         self._results_df = pd.DataFrame()
 
         self._optimization_finished = False
@@ -70,7 +70,7 @@ class GridSearchOptimizer(object):
 
         total_time_elapsed = 0
 
-        print(f'Starting simulation ...')
+        print('Starting simulation ...')
         print(f'Simulating 1 / {n} ...', end='\r')
         for i, params in enumerate(product(*param_ranges.values())):
             if i > 0:
@@ -83,7 +83,7 @@ class GridSearchOptimizer(object):
 
             timer_start = default_timer()
 
-            parameters = {n: param for n, param in zip(param_names, params)}
+            parameters = dict(zip(param_names, params))
             results = self.simulate(**parameters)
             self.add_results(parameters, results)
 
@@ -92,7 +92,7 @@ class GridSearchOptimizer(object):
 
         print(f'Simulated {total_simulations} / {total_simulations} ...')
         print(f'Elapsed time: {total_time_elapsed:.0f}s')
-        print(f'Done.')
+        print('Done.')
 
         self._optimization_finished = True
 
@@ -203,17 +203,17 @@ class GridSearchOptimizer(object):
         """
         self._assert_finished()
         param_names = self.param_names
-        metric_names = self.metric_names
-
         if len(attrs) == 3:
             assert attrs[0] in param_names and attrs[1] in param_names, \
-                'First two positional arguments must be parameter names.'
+                    'First two positional arguments must be parameter names.'
+
+            metric_names = self.metric_names
 
             assert attrs[2] in metric_names, \
-                'Last positional argument must be a metric name.'
+                    'Last positional argument must be a metric name.'
 
             assert len(filter_kwargs) + 2 == len(param_names), \
-                'Must filter remaining parameters. e.g. p_three=some_number.'
+                    'Must filter remaining parameters. e.g. p_three=some_number.'
 
             self.plot_3d_mesh(*attrs, show=show, **filter_kwargs)
 
